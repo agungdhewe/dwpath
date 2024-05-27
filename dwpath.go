@@ -19,14 +19,16 @@ func IsPathExists(path string) (bool, fs.FileInfo, error) {
 
 func IsDirectoryExists(dir string) (bool, error) {
 	exists, fileinfo, err := IsPathExists(dir)
-	if err != nil {
-		return false, err
-	}
-	if !fileinfo.IsDir() {
-		return false, fmt.Errorf("path '%s' bukan direktori", dir)
-	}
 	if !exists {
-		return false, fmt.Errorf("direktori '%s' tidak ditemukan", dir)
+		if err != nil {
+			return false, err
+		} else {
+			return false, nil
+		}
+	} else {
+		if !fileinfo.IsDir() {
+			return false, fmt.Errorf("path '%s' bukan direktori", dir)
+		}
 	}
 	return true, nil
 }
